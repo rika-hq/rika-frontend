@@ -1,11 +1,12 @@
-import { LoginForm } from "@/models/forms/loginForm.interface";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { LoginForm } from "@/models/forms/LoginForm.interface";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useForm } from "react-hook-form";
 
 export function useViewModel() {
 	const [isLogging, setIsLogging] = useState<boolean>(false);
+	const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
 	const formSchema = yup.object().shape({
 		email: yup
@@ -24,14 +25,18 @@ export function useViewModel() {
 	});
 	const onSubmit = formMethods.handleSubmit(async () => {
 		await setIsLogging(true);
+
+		// Simulate login process.
 		await new Promise((res) => setTimeout(res, 3000));
 		await setIsLogging(false);
-		// TODO: Logged. Redirect to the home page. 
+		console.log("Logged!");
 	});
 
 	return {
+		isLogging,
 		formMethods,
+		passwordVisible,
 		onSubmit,
-		isLogging
+		setPasswordVisible,
 	};
 }
